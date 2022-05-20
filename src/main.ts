@@ -13,6 +13,6 @@ async function bootstrap() {
   hbs.registerPartials(join(__dirname, '..', 'views/layouts'));
   hbsUtils(hbs).registerWatchedPartials(join(__dirname, '..', 'views/layouts'));
   app.setViewEngine('hbs');
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
