@@ -6,7 +6,6 @@ import * as hbs from 'hbs';
 import * as hbsUtils from 'hbs-utils';
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));

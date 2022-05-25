@@ -10,10 +10,11 @@ export class ProductsService {
     private productsRepository: Repository<Product>,
   ) {}
 
-  public findAll(): Promise<Product[]> {
+  findAll(): Promise<Product[]> {
     return this.productsRepository.find();
   }
-  public findOne(id: string): Promise<Product> {
+
+  findOne(id: string): Promise<Product> {
     return this.productsRepository.findOne(id);
   }
 }
