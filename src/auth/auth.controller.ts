@@ -3,14 +3,13 @@ import {
   Get,
   Render,
   Post,
-  Body,
-  Res,
-  Req,
   Redirect,
+  Body,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { User } from 'src/models/user.entity';
 import { UsersService } from '../models/users.service';
-import * as session from 'express-session';
 import { UserValidator } from '../validators/user.validator';
 
 @Controller('/auth')
@@ -29,10 +28,10 @@ export class AuthController {
   }
 
   @Post('/store')
-  async store(@Body() body, @Req() request, @Res() response) {
+  async store(@Body() body, @Res() response, @Req() request) {
     const toValidate: string[] = ['name', 'email', 'password'];
     const errors: string[] = UserValidator.validate(body, toValidate);
-    if (errors.length) {
+    if (errors.length > 0) {
       request.session.flashErrors = errors;
       return response.redirect('/auth/register');
     } else {
@@ -46,19 +45,23 @@ export class AuthController {
       return response.redirect('/auth/login');
     }
   }
+
   @Get('/login')
   @Render('auth/login')
   login() {
     const viewData = [];
-    viewData['title'] = 'Login - Online store';
+    viewData['title'] = 'User Login - Online Store';
     viewData['subtitle'] = 'User Login';
-    return { viewData };
+    return {
+      viewData: viewData,
+    };
   }
 
   @Post('/connect')
   async connect(@Body() body, @Req() request, @Res() response) {
-    const { email, password } = body;
-    const user = await this.usersService.login(email, password);
+    const email = body.email;
+    const pass = body.password;
+    const user = await this.usersService.login(email, pass);
     if (user) {
       request.session.user = {
         id: user.getId(),
@@ -73,7 +76,7 @@ export class AuthController {
 
   @Get('/logout')
   @Redirect('/')
-  logout(@Req() resquest) {
-    resquest.session.user = null;
+  logout(@Req() request) {
+    request.session.user = null;
   }
 }
