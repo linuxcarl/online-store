@@ -56,4 +56,11 @@ export class Product {
   setPrice(price: number) {
     this.price = price;
   }
+  static sumPriceByQuantities(products: Product[], productsInSession): number {
+    let total = 0;
+    for (const product of products) {
+      total = total + product.getPrice() * productsInSession[product.getId()];
+    }
+    return total;
+  }
 }
