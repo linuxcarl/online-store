@@ -27,4 +27,10 @@ export class UsersService {
     }
     return null;
   }
+  async findOne(id: number): Promise<User> {
+    return await this.usersRepository.findOne(id);
+  }
+  async updateBalance(id: number, balance: number) {
+    return await this.usersRepository.update(id, { balance: balance });
+  }
 }
